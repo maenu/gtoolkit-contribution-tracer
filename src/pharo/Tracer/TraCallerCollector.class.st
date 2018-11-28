@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'invokeLink',
-		'callers',
 		'root'
 	],
 	#classInstVars : [
@@ -13,28 +12,25 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-TraCallerCollector >> callers [
-	^ callers
-]
-
-{ #category : #'as yet unclassified' }
 TraCallerCollector >> collectAll: aCollection doing: aBlock [
-	| asts |
+	| asts callers |
 	asts := aCollection
 		collect: [ :e | 
 			| ast |
 			ast := e ast.
 			self installOn: ast.
 			ast ].
-	^ [ aBlock value ]
-		ensure: [ asts collect: [ :e | callers at: e methodClass name asSymbol -> e selector put: e traCallers ].
-			asts do: [ :e | self uninstallFrom: e ] ]
+	"needs identity, as method hash is not considering selector"
+	callers := IdentityDictionary new.
+	[ aBlock value ]
+		ensure: [ asts collect: [ :e | callers at: e method put: e traCallers ].
+			asts do: [ :e | self uninstallFrom: e ] ].
+	^ callers
 ]
 
 { #category : #initialization }
 TraCallerCollector >> initialize [
-	callers := Dictionary new.
-	root := self class name asSymbol -> #collectAll:doing:.
+	root := self class >> #collectAll:doing:.
 	invokeLink := MetaLink new
 		metaObject: #node;
 		selector: #traInvokeIn:;
@@ -42,24 +38,21 @@ TraCallerCollector >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-TraCallerCollector >> install: aMetaLink on: aNode [
+TraCallerCollector >> installOn: aNode [
+	aNode traUninstall.
 	aNode propertyAt: #tra put: true.
 	aNode propertyAt: #traMonitor put: Monitor new.
 	aNode propertyAt: #traRoot put: root.
-	aNode link: aMetaLink
-]
-
-{ #category : #'as yet unclassified' }
-TraCallerCollector >> installOn: aNode [
-	aNode traUninstall.
-	aNode do: [ :n | self install: invokeLink on: n ].
+	aNode link: invokeLink.
 	aNode method reflectiveMethod compileAndInstallCompiledMethod.
 	^ aNode method ast
 ]
 
 { #category : #'as yet unclassified' }
 TraCallerCollector >> uninstallFrom: aNode [
-	aNode removeProperty: #tra ifAbsent: [  ].
 	aNode traUninstall.
+	aNode removeProperty: #tra ifAbsent: [  ].
+	aNode removeProperty: #traMonitor ifAbsent: [  ].
+	aNode removeProperty: #traRoot ifAbsent: [  ].
 	aNode removeLink: invokeLink
 ]

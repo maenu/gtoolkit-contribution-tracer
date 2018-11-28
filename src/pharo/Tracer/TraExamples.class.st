@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #accessing }
-TraExamples >> neoJsonCore [
+TraExamples >> deepTraverser [
 	<gtExample>
-	| methods collector testResult |
-	methods := #'Neo-JSON-Core' asPackage methods.
+	| testResult collector callers |
 	collector := TraCallerCollector new.
 	testResult := TestResult new.
-	collector
-		collectAll: methods
-		doing: [ (#'Neo-JSON-Tests' asPackage definedClasses select: [ :e | e isTestCase and: e isAbstract not ]) do: [ :e | e suite run: testResult ] ].
-	^ testResult -> collector asCallers -> methods
+	callers := collector
+		collectAll: #DeepTraverser asPackage methods
+		doing: [ #'DeepTraverser-Examples' asPackage gtExamplesContained do: #run.
+			(#'DeepTraverser-Tests' asPackage definedClasses select: [ :e | e isTestCase and: e isAbstract not ]) do: [ :e | e suite run: testResult ] ].
+	^ testResult -> callers
 ]

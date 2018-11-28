@@ -2,7 +2,8 @@ Extension { #name : #RBMethodNode }
 
 { #category : #'*Tracer' }
 RBMethodNode >> traCallers [
-	^ self propertyAt: #traCallers ifAbsentPut: [ Set new ]
+	"needs identity, as method hash is not considering selector"
+	^ self propertyAt: #traCallers ifAbsentPut: [ IdentitySet new ]
 ]
 
 { #category : #'*Tracer' }
@@ -14,12 +15,7 @@ RBMethodNode >> traInvokeIn: aContext [
 	[ sender sender isNotNil
 		and: [ sender sender method ~~ aContext method and: [ sender sender method ast traIsCovered not and: [ sender sender method traIsEntryPoint not ] ] ] ]
 		whileTrue: [ sender := sender sender ].
-	self traMonitor
-		critical: [ sender sender
-				ifNil: [ self traCallers add: self traRoot ]
-				ifNotNil: [ | method |
-					method := sender sender method.
-					self traCallers add: method methodClass name asSymbol -> method selector ] ]
+	self traMonitor critical: [ sender sender ifNil: [ self traCallers add: self traRoot ] ifNotNil: [ self traCallers add: sender sender method ] ]
 ]
 
 { #category : #'*Tracer' }
