@@ -1,5 +1,5 @@
 Class {
-	#name : #ScoResolver,
+	#name : #TraResolver,
 	#superclass : #Object,
 	#instVars : [
 		'packages'
@@ -7,38 +7,38 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'Scoper-Core'
+	#category : #'Tracer-Core'
 }
 
 { #category : #accessing }
-ScoResolver class >> instance [
+TraResolver class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
 { #category : #adding }
-ScoResolver >> initialize [
+TraResolver >> initialize [
 	super initialize.
 	packages := Dictionary new
 ]
 
 { #category : #accessing }
-ScoResolver >> packages [
+TraResolver >> packages [
 	^ packages
 ]
 
 { #category : #accessing }
-ScoResolver >> packages: anObject [
+TraResolver >> packages: anObject [
 	packages := anObject
 ]
 
 { #category : #'as yet unclassified' }
-ScoResolver >> resolveMethod: aMethod [
+TraResolver >> resolveMethod: aMethod [
 	^ ((self resolvePackage: aMethod package) value associations
 		detect: [ :e | e key methodClass = aMethod methodClass and: [ e key selector = aMethod selector ] ]
-		ifNone: [ ScoNoMethodFoundError new ]) value
+		ifNone: [ TraNoMethodFoundError new ]) value
 ]
 
 { #category : #'as yet unclassified' }
-ScoResolver >> resolvePackage: aPackage [
-	^ packages at: aPackage ifAbsent: [ ScoNoPackageFoundError new ]
+TraResolver >> resolvePackage: aPackage [
+	^ packages at: aPackage ifAbsent: [ TraNoPackageFoundError new ]
 ]

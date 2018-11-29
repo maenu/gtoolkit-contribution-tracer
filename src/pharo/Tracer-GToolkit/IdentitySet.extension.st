@@ -1,7 +1,7 @@
 Extension { #name : #IdentitySet }
 
-{ #category : #'*Scoper-GToolkit' }
-IdentitySet >> scoGtQuarterFor: aColor spawning: aBlock [
+{ #category : #'*Tracer-GToolkit' }
+IdentitySet >> traGtQuarterFor: aColor spawning: aBlock [
 	^ BlElement new
 		geometry: BlRectangle new;
 		background: (self ifEmpty: [ aColor alpha: 0 ] ifNotEmpty: [ aColor ]);

@@ -1,7 +1,7 @@
 Extension { #name : #CompiledMethod }
 
-{ #category : #'*Scoper-GToolkit' }
-CompiledMethod >> scoGtSourceFor: aView [
+{ #category : #'*Tracer-GToolkit' }
+CompiledMethod >> traGtSourceFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Source (Scoper)' translated;
@@ -11,7 +11,7 @@ CompiledMethod >> scoGtSourceFor: aView [
 				icon: BrGlamorousIcons browse asElement;
 				action: [ self browse ] ];
 		stencil: [ | coder |
-			coder := ScoGtMethodCoder forMethod: self.
+			coder := TraGtMethodCoder forMethod: self.
 			coder expanded: true.
 			coder asElement ]
 ]

@@ -1,7 +1,7 @@
 Extension { #name : #IdentityDictionary }
 
-{ #category : #'*Scoper-GToolkit' }
-IdentityDictionary >> scoGtAddClasses: aDictionary to: aView shaped: aBlock colored: aColor [
+{ #category : #'*Tracer-GToolkit' }
+IdentityDictionary >> traGtAddClasses: aDictionary to: aView shaped: aBlock colored: aColor [
 	aView nodes
 		shape: [ :x | 
 			BlElement new
@@ -36,13 +36,13 @@ IdentityDictionary >> scoGtAddClasses: aDictionary to: aView shaped: aBlock colo
 			aView layout custom: BlLinearLayout horizontal ]
 ]
 
-{ #category : #'*Scoper-GToolkit' }
-IdentityDictionary >> scoGtEntryPointsSatisfying: aBlock [
+{ #category : #'*Tracer-GToolkit' }
+IdentityDictionary >> traGtEntryPointsSatisfying: aBlock [
 	^ ((self values flatCollect: #values) flatCollect: #yourself) select: aBlock
 ]
 
-{ #category : #'*Scoper-GToolkit' }
-IdentityDictionary >> scoGtGroupedByClass: aSet [
+{ #category : #'*Tracer-GToolkit' }
+IdentityDictionary >> traGtGroupedByClass: aSet [
 	^ aSet
 		inject: IdentityDictionary new
 		into: [ :e :b | 
@@ -52,8 +52,8 @@ IdentityDictionary >> scoGtGroupedByClass: aSet [
 			e ]
 ]
 
-{ #category : #'*Scoper-GToolkit' }
-IdentityDictionary >> scoGtViewFor: aView [
+{ #category : #'*Tracer-GToolkit' }
+IdentityDictionary >> traGtViewFor: aView [
 	<gtView>
 	^ aView mondrian
 		title: 'Call Graph (Scoper)' translated;
@@ -63,11 +63,11 @@ IdentityDictionary >> scoGtViewFor: aView [
 			subjectColor := Color veryLightGray.
 			testColor := Color purple lighter.
 			exampleColor := Color orange lighter.
-			subjectClasses := self scoGtGroupedByClass: self keys.
-			testClasses := self scoGtGroupedByClass: (self scoGtEntryPointsSatisfying: [ :e | e methodClass isTestCase ]).
-			exampleClasses := self scoGtGroupedByClass: (self scoGtEntryPointsSatisfying: [ :e | e methodClass methods anySatisfy: #isGTExampleMethod ]).
+			subjectClasses := self traGtGroupedByClass: self keys.
+			testClasses := self traGtGroupedByClass: (self traGtEntryPointsSatisfying: [ :e | e methodClass isTestCase ]).
+			exampleClasses := self traGtGroupedByClass: (self traGtEntryPointsSatisfying: [ :e | e methodClass methods anySatisfy: #isGTExampleMethod ]).
 			self
-				scoGtAddClasses: testClasses
+				traGtAddClasses: testClasses
 				to: view
 				shaped: [ :x | 
 					BlElement new
@@ -75,21 +75,21 @@ IdentityDictionary >> scoGtViewFor: aView [
 						yourself ]
 				colored: (testColor alpha: 0.25).
 			self
-				scoGtAddClasses: subjectClasses
+				traGtAddClasses: subjectClasses
 				to: view
 				shaped: [ :x | 
-					((self at: x) scoGtWholeForTest: testColor forExample: exampleColor)
+					((self at: x) traGtWholeForTest: testColor forExample: exampleColor)
 						constraintsDo: [ :c | 
 							c
 								padding:
 									(BlInsets
-										top: 10
+										top: 17
 										left: 0
 										bottom: 0
 										right: 0) ] ]
 				colored: (subjectColor alpha: 0.25).
 			self
-				scoGtAddClasses: exampleClasses
+				traGtAddClasses: exampleClasses
 				to: view
 				shaped: [ :x | 
 					BlElement new

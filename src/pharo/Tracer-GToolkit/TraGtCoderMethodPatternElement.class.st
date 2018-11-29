@@ -1,14 +1,14 @@
 Class {
-	#name : #ScoGtCoderMethodPatternElement,
+	#name : #TraGtCoderMethodPatternElement,
 	#superclass : #GtCoderMethodPatternElement,
 	#instVars : [
 		'scoper'
 	],
-	#category : #'Scoper-GToolkit-Core'
+	#category : #'Tracer-GToolkit-Core'
 }
 
 { #category : #initialization }
-ScoGtCoderMethodPatternElement >> initialize [
+TraGtCoderMethodPatternElement >> initialize [
 	super initialize.
 	self layout: (BlGridLayout new columnCount: 2).
 	scoper := BlElement new
@@ -30,14 +30,14 @@ ScoGtCoderMethodPatternElement >> initialize [
 ]
 
 { #category : #accessing }
-ScoGtCoderMethodPatternElement >> methodCoder: aMethodCoder [
+TraGtCoderMethodPatternElement >> methodCoder: aMethodCoder [
 	super methodCoder: aMethodCoder.
 	[ | callers |
-	callers := (ScoResolver instance resolveMethod: aMethodCoder classOrMetaClass >> aMethodCoder selector) value.
+	callers := (TraResolver instance resolveMethod: aMethodCoder classOrMetaClass >> aMethodCoder selector) value.
 	scoper
 		removeChildren;
 		addChild:
-			((callers scoGtWholeForTest: Color purple forExample: Color orange)
+			((callers traGtWholeForTest: Color purple forExample: Color orange)
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical matchParent ];

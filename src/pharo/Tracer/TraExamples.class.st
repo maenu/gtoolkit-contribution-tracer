@@ -1,16 +1,16 @@
 Class {
-	#name : #ScoExamples,
+	#name : #TraExamples,
 	#superclass : #Object,
-	#category : #'Scoper-Examples'
+	#category : #'Tracer-Examples'
 }
 
 { #category : #accessing }
-ScoExamples >> deepTraverser [
+TraExamples >> deepTraverser [
 	<gtExample>
 	| package collector association |
 	package := #DeepTraverser asPackage.
-	collector := ScoCallerCollector new.
+	collector := TraCallerCollector new.
 	association := collector collectIn: {package} , ({#'DeepTraverser-Examples' . #'DeepTraverser-Tests'} collect: #asPackage).
-	ScoResolver instance packages at: package put: association.
+	TraResolver instance packages at: package put: association.
 	^ association
 ]

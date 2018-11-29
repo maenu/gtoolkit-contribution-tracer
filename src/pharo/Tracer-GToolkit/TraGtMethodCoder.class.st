@@ -1,13 +1,13 @@
 Class {
-	#name : #ScoGtMethodCoder,
+	#name : #TraGtMethodCoder,
 	#superclass : #GtMethodCoder,
-	#category : #'Scoper-GToolkit-Core'
+	#category : #'Tracer-GToolkit-Core'
 }
 
 { #category : #elements }
-ScoGtMethodCoder >> asElement [
+TraGtMethodCoder >> asElement [
 	self ensureBuilt.
-	^ ScoGtCoderMethodElement new
+	^ TraGtCoderMethodElement new
 		margin: (BlInsets all: 10);
 		methodCoder: self;
 		yourself

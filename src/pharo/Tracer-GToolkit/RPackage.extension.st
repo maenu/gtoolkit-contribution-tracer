@@ -1,10 +1,10 @@
 Extension { #name : #RPackage }
 
-{ #category : #'*Scoper-GToolkit' }
-RPackage >> scoGtViewFor: aView [
+{ #category : #'*Tracer-GToolkit' }
+RPackage >> traGtViewFor: aView [
 	<gtView>
-	^ [ (ScoResolver instance resolvePackage: self) value scoGtViewFor: aView ]
-		on: ScoNoPackageFoundError
+	^ [ (TraResolver instance resolvePackage: self) value traGtViewFor: aView ]
+		on: TraNoPackageFoundError
 		do: [ aView explicit
 				title: 'Call Graph (Scoper)' translated;
 				priority: 50;

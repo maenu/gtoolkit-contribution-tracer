@@ -1,12 +1,12 @@
 Class {
-	#name : #ScoGtCoderMethodPatternStencil,
+	#name : #TraGtCoderMethodPatternStencil,
 	#superclass : #GtCoderMethodPatternStencil,
-	#category : #'Scoper-GToolkit-Core'
+	#category : #'Tracer-GToolkit-Core'
 }
 
 { #category : #'api - instantiation' }
-ScoGtCoderMethodPatternStencil >> create [
-	^ ScoGtCoderMethodPatternElement new
+TraGtCoderMethodPatternStencil >> create [
+	^ TraGtCoderMethodPatternElement new
 		methodCoder: self methodCoder;
 		margin: (BlInsets left: 5);
 		constraintsDo: [ :c | 
