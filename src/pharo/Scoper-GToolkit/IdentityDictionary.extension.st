@@ -53,7 +53,7 @@ IdentityDictionary >> scoGtGroupedByClass: aSet [
 ]
 
 { #category : #'*Scoper-GToolkit' }
-IdentityDictionary >> scoGtViewAsCallGraphFor: aView [
+IdentityDictionary >> scoGtViewFor: aView [
 	<gtView>
 	^ aView mondrian
 		title: 'Call Graph (Scoper)' translated;

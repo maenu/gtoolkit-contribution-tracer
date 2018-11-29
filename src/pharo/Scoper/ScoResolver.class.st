@@ -33,9 +33,9 @@ ScoResolver >> packages: anObject [
 
 { #category : #'as yet unclassified' }
 ScoResolver >> resolveMethod: aMethod [
-	^ (self resolvePackage: aMethod package) value methods
-		at: [ :e | e methodClass = aMethod methodClass and: [ e selector = aMethod selector ] ]
-		ifAbsent: [ ScoNoMethodFoundError new ]
+	^ ((self resolvePackage: aMethod package) value associations
+		detect: [ :e | e key methodClass = aMethod methodClass and: [ e key selector = aMethod selector ] ]
+		ifNone: [ ScoNoMethodFoundError new ]) value
 ]
 
 { #category : #'as yet unclassified' }

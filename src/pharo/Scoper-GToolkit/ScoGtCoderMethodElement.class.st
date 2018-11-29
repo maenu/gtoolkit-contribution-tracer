@@ -1,7 +1,7 @@
 Class {
 	#name : #ScoGtCoderMethodElement,
 	#superclass : #GtCoderMethodElement,
-	#category : #'Scoper-GToolkit'
+	#category : #'Scoper-GToolkit-Core'
 }
 
 { #category : #accessing }

@@ -16,7 +16,6 @@ ScoGtCoderMethodPatternElement >> initialize [
 			c horizontal exact: 25.
 			c vertical matchParent.
 			c grid vertical span: 2 ];
-		background: Color black;
 		margin: (BlInsets right: 5);
 		yourself.
 	breadcrumb
@@ -34,10 +33,15 @@ ScoGtCoderMethodPatternElement >> initialize [
 ScoGtCoderMethodPatternElement >> methodCoder: aMethodCoder [
 	super methodCoder: aMethodCoder.
 	[ | callers |
-	callers := (ScoResolver instance resolveMethod: aMethodCoder class >> aMethodCoder selector) value.
+	callers := (ScoResolver instance resolveMethod: aMethodCoder classOrMetaClass >> aMethodCoder selector) value.
 	scoper
 		removeChildren;
-		addChild: (callers scoGtWholeForTest: Color purple forExample: Color orange) ]
+		addChild:
+			((callers scoGtWholeForTest: Color purple forExample: Color orange)
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				yourself) ]
 		on: Error
 		do: [ :e | e return ]
 ]

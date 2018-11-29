@@ -1,7 +1,7 @@
 Class {
 	#name : #ScoGtCoderMethodPatternStencil,
 	#superclass : #GtCoderMethodPatternStencil,
-	#category : #'Scoper-GToolkit'
+	#category : #'Scoper-GToolkit-Core'
 }
 
 { #category : #'api - instantiation' }
