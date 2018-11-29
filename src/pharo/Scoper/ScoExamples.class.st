@@ -5,22 +5,12 @@ Class {
 }
 
 { #category : #accessing }
-ScoExamples >> deepTraverserExamples [
+ScoExamples >> deepTraverser [
 	<gtExample>
-	| collector callers |
+	| package collector association |
+	package := #DeepTraverser asPackage.
 	collector := ScoCallerCollector new.
-	callers := collector collectAll: #DeepTraverser asPackage methods doing: [ #'DeepTraverser-Examples' asPackage gtExamplesContained do: #run ].
-	^ callers
-]
-
-{ #category : #accessing }
-ScoExamples >> deepTraverserTests [
-	<gtExample>
-	| testResult collector callers |
-	collector := ScoCallerCollector new.
-	testResult := TestResult new.
-	callers := collector
-		collectAll: #DeepTraverser asPackage methods
-		doing: [ (#'DeepTraverser-Tests' asPackage definedClasses select: [ :e | e isTestCase and: e isAbstract not ]) do: [ :e | e suite run: testResult ] ].
-	^ testResult -> callers
+	association := collector collectIn: {package} , ({#'DeepTraverser-Examples' . #'DeepTraverser-Tests'} collect: #asPackage).
+	ScoResolver instance packages at: package put: association.
+	^ association
 ]

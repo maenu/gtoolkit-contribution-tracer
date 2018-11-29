@@ -35,7 +35,7 @@ RBMethodNode >> scoIsCovered [
 
 { #category : #'*Scoper' }
 RBMethodNode >> scoMonitor [
-	^ self propertyAt: #scoMonitor
+	^ self propertyAt: #scoMonitor ifAbsentPut: [ Monitor new ]
 ]
 
 { #category : #'*Scoper' }

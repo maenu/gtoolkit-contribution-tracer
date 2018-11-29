@@ -4,32 +4,33 @@ Class {
 	#instVars : [
 		'invokeLink'
 	],
-	#classInstVars : [
-		'instance'
-	],
 	#category : #'Scoper-Core'
 }
 
 { #category : #'as yet unclassified' }
-ScoCallerCollector >> collectAll: aPackage doing: aBlock [
-	| classes asts callers |
-	classes := aPackage definedClasses.
-	classes do: [ :e | e methods detect: [ :f | f selector = #initialize ] ifNone: [ e compile: 'initialize <scoTemporary> ^ super initialize' ] ].
-	asts := aPackage methods , (classes collect: [ :e | e >> #initialize ])
-		collect: [ :e | 
-			| ast |
-			ast := e ast.
-			self installOn: ast.
-			ast ].
+ScoCallerCollector >> collectIn: somePackages [
+	| asts callers testResult |
+	"assumes examples, tests, and model are not mixed"
+	asts := somePackages
+		flatCollect: [ :e | 
+			(e methods reject: [ :f | f methodClass scoIsEntryPoint ])
+				collect: [ :f | 
+					| ast |
+					ast := f ast.
+					self installOn: ast.
+					ast ] ].
+	testResult := TestResult new.
 	"needs identity, as method hash is not considering selector"
 	callers := IdentityDictionary new.
-	[ aBlock value ]
+	[ somePackages
+		do: [ :e | 
+			e gtExamplesContained do: #run.
+			(e definedClasses select: [ :f | f isTestCase and: f isAbstract not ]) do: [ :f | f suite run: testResult ] ] ]
 		ensure: [ asts
 				do: [ :e | 
 					callers at: e method put: e scoCallers.
-					self uninstallFrom: e ].
-			classes do: [ :e | (e methods select: [ :f | f hasPragmaNamed: #scoTemporary ]) do: [ :f | e removeSelector: f selector ] ] ].
-	^ callers
+					self uninstallFrom: e ] ].
+	^ testResult -> callers
 ]
 
 { #category : #initialization }
