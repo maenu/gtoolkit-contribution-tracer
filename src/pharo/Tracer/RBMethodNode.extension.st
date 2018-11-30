@@ -13,6 +13,23 @@ RBMethodNode >> traCallers [
 ]
 
 { #category : #'*Tracer' }
+RBMethodNode >> traInstall [
+	| invokeLink |
+	self traUninstall.
+	invokeLink := MetaLink new
+		metaObject: #node;
+		selector: #traInvokeIn:;
+		arguments: #(context);
+		yourself.
+	self propertyAt: #tra put: true.
+	self propertyAt: #traMonitor put: Monitor new.
+	self propertyAt: #traLink put: invokeLink.
+	self link: invokeLink.
+	self method reflectiveMethod compileAndInstallCompiledMethod.
+	^ self method ast
+]
+
+{ #category : #'*Tracer' }
 RBMethodNode >> traInvokeIn: aContext [
 	| sender invoke |
 	aContext isBlockContext
@@ -40,5 +57,8 @@ RBMethodNode >> traMonitor [
 
 { #category : #'*Tracer' }
 RBMethodNode >> traUninstall [
-	self removeProperty: #traCallers ifAbsent: [  ]
+	self removeProperty: #tra ifAbsent: [  ].
+	self removeProperty: #traMonitor ifAbsent: [  ].
+	self removeProperty: #traCallers ifAbsent: [  ].
+	self propertyAt: #traLink ifPresent: [ :e | self removeProperty: #traLink ifAbsent: [  ] ] ifAbsent: [  ]
 ]
