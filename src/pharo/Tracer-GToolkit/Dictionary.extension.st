@@ -20,14 +20,21 @@ Dictionary >> traGtWholeForTest: aColor forExample: anotherColor [
 			((self collect: [ :e | e select: #isTestMethod ])
 				traGtHalfFor: aColor
 				spawning: [ :e | 
-					self flag: 'running suite seems not to work always'.
-					e	"TestCase buildSuiteFromMethods: e" ]);
+					| result suite |
+					result := TestResult new.
+					suite := TestSuite new.
+					e do: [ :eachMethod | suite addTest: (eachMethod origin selector: eachMethod selector) ].
+					[ suite run: result ] schedule.
+					result ]);
 		addChild:
 			((self collect: [ :e | e select: [ :f | f methodClass methods anySatisfy: #isGTExampleMethod ] ])
 				traGtHalfFor: anotherColor
 				spawning: [ :e | 
-					GtExplicitExampleGroup new
+					| group |
+					group := GtExplicitExampleGroup new
 						examples: (e flatCollect: #gtExamples);
-						yourself ]);
+						yourself.
+					[ group runAll ] schedule.
+					group ]);
 		yourself
 ]

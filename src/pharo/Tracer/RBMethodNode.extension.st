@@ -36,13 +36,16 @@ RBMethodNode >> traInvokeIn: aContext [
 		ifTrue: [ ^ self ].
 	sender := aContext.
 	invoke := #direct.
-	[ sender sender isNotNil and: [ sender sender method ~~ aContext method and: [ sender sender method ast traIsCovered not and: [ sender sender method traIsEntryPoint not ] ] ] ]
+	[ sender sender isNotNil
+		and: [ sender sender method ~~ aContext method
+				and: [ sender sender method ast traIsCovered not and: [ sender sender method traIsEntryPoint not ] ] ] ]
 		whileTrue: [ sender method ast traIsCovered
 				ifTrue: [ invoke := #indirect ].
 			sender := sender sender ].
 	self traMonitor
-		critical: [ sender sender method traIsEntryPoint
-				ifTrue: [ (self traCallers at: invoke) add: sender sender method ] ]
+		critical: [ sender sender
+				ifNotNil: [ sender sender method traIsEntryPoint
+						ifTrue: [ (self traCallers at: invoke) add: sender sender method ] ] ]
 ]
 
 { #category : #'*Tracer' }

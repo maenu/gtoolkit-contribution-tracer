@@ -1,11 +1,11 @@
 Class {
-	#name : #TraCallerCollector,
+	#name : #TraCollector,
 	#superclass : #Object,
 	#category : #'Tracer-Core'
 }
 
 { #category : #'as yet unclassified' }
-TraCallerCollector >> collectIn: somePackages [
+TraCollector >> collectIn: somePackages [
 	| asts callers testResult |
 	"assumes examples, tests, and model are not mixed"
 	asts := somePackages flatCollect: [ :e | (e methods reject: [ :f | f methodClass traIsEntryPoint ]) collect: [ :f | f ast traInstall ] ].

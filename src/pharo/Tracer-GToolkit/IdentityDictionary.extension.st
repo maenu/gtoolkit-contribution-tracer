@@ -56,7 +56,7 @@ IdentityDictionary >> traGtGroupedByClass: aSet [
 IdentityDictionary >> traGtViewFor: aView [
 	<gtView>
 	^ aView mondrian
-		title: 'Call Graph (Scoper)' translated;
+		title: 'Tracer' translated;
 		priority: 50;
 		painting: [ :view | 
 			| subjectColor testColor exampleColor subjectClasses testClasses exampleClasses |
