@@ -7,9 +7,9 @@ RBMethodNode >> traCallers [
 
 { #category : #'*Tracer' }
 RBMethodNode >> traInstall [
-	| invokeLink |
+	| link |
 	self traUninstall.
-	invokeLink := MetaLink new
+	link := MetaLink new
 		metaObject: #node;
 		selector: #traInvokeIn:;
 		arguments: #(context);
@@ -23,8 +23,8 @@ RBMethodNode >> traInstall [
 				at: #direct put: IdentitySet new;
 				at: #indirect put: IdentitySet new;
 				yourself ].
-	self propertyAt: #traLink put: invokeLink.
-	self link: invokeLink.
+	self propertyAt: #traLink put: link.
+	self link: link.
 	self method reflectiveMethod compileAndInstallCompiledMethod.
 	^ self method ast
 ]
