@@ -33,7 +33,7 @@ TraResolver >> packages: anObject [
 
 { #category : #'as yet unclassified' }
 TraResolver >> resolveMethod: aMethod [
-	^ ((self resolvePackage: aMethod package) value associations
+	^ ((self resolvePackage: aMethod package) value value associations
 		detect: [ :e | e key methodClass = aMethod methodClass and: [ e key selector = aMethod selector ] ]
 		ifNone: [ TraNoMethodFoundError new ]) value
 ]
