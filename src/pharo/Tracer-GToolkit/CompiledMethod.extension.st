@@ -4,7 +4,7 @@ Extension { #name : #CompiledMethod }
 CompiledMethod >> traGtSourceFor: aView [
 	<gtView>
 	^ aView explicit
-		title: 'Source (Scoper)' translated;
+		title: 'Source (Tracer)' translated;
 		priority: 1;
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonExteriorRectangularLook + BrGlamorousButtonIconLook;
