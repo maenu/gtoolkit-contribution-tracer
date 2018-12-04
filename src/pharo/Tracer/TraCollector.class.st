@@ -18,10 +18,8 @@ TraCollector >> collectIn: somePackages [
 			exampleResults := GtExplicitExampleGroup new
 				examples: (e definedClasses flatCollect: #gtExamples);
 				runAll.
-			(e definedClasses select: [ :f | f isTestCase and: f isAbstract not ]) do: [ :f | f suite run: testResult ] ] ]
-		ensure: [ asts
-				do: [ :e | 
-					callers at: e method put: e traCallers.
-					e traUninstall ] ].
+			(e definedClasses select: [ :f | f isTestCase and: f isAbstract not ]) do: [ :f | f suite run: testResult ] ].
+	asts do: [ :e | callers at: e method put: e traCallers ] ]
+		ensure: [ asts do: #traUninstall ].
 	^ exampleResults -> testResult -> callers
 ]
