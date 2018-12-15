@@ -4,10 +4,8 @@ Class {
 	#category : #'Tracer-GToolkit-Core'
 }
 
-{ #category : #elements }
-TraGtMethodCoder >> asElement [
-	self ensureBuilt.
-	^ TraGtCoderMethodElement new
-		methodCoder: self;
-		yourself
+{ #category : #'initialize-release' }
+TraGtMethodCoder >> initializeAddOns [
+	super initializeAddOns.
+	addOns addStyler: TraGtTraceBodyStyler new
 ]
