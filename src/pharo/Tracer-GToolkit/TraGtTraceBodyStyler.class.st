@@ -17,7 +17,7 @@ TraGtTraceBodyStyler >> visitMethodNode: aNode [
 		with:
 			{(BrTextAdornmentDynamicAttribute new
 				beAppend;
-				stencil: [ aNode traElement
+				stencil: [ aNode traGtElement
 						constraintsDo: [ :c | 
 							c horizontal exact: 32.
 							c vertical exact: 32.
