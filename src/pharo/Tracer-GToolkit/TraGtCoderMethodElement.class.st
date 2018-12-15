@@ -7,5 +7,6 @@ Class {
 { #category : #accessing }
 TraGtCoderMethodElement >> methodCoder: aGtMethodCoder [
 	super methodCoder: aGtMethodCoder.
-	self header: [ TraGtCoderMethodPatternStencil new methodCoder: self methodCoder ]
+	self header: [ TraGtCoderMethodPatternStencil new methodCoder: self methodCoder ].
+	self content: [ TraGtCoderMethodBodyStencil new methodCoder: self methodCoder ]
 ]

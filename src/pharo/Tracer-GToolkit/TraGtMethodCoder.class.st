@@ -8,7 +8,6 @@ Class {
 TraGtMethodCoder >> asElement [
 	self ensureBuilt.
 	^ TraGtCoderMethodElement new
-		margin: (BlInsets all: 10);
 		methodCoder: self;
 		yourself
 ]

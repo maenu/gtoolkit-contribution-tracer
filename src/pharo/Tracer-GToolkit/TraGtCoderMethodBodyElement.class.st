@@ -1,6 +1,6 @@
 Class {
-	#name : #TraGtCoderMethodPatternElement,
-	#superclass : #GtCoderMethodPatternElement,
+	#name : #TraGtCoderMethodBodyElement,
+	#superclass : #GtCoderMethodBodyElement,
 	#instVars : [
 		'scoper'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #initialization }
-TraGtCoderMethodPatternElement >> initialize [
+TraGtCoderMethodBodyElement >> initialize [
 	super initialize.
 	self layout: (BlGridLayout new columnCount: 2)
 ]
 
 { #category : #accessing }
-TraGtCoderMethodPatternElement >> methodCoder: aMethodCoder [
+TraGtCoderMethodBodyElement >> methodCoder: aMethodCoder [
 	methodCoder := aMethodCoder.
 	self
 		addChild:
@@ -37,11 +37,12 @@ TraGtCoderMethodPatternElement >> methodCoder: aMethodCoder [
 					c horizontal matchParent.
 					c vertical fitContent.
 					c grid horizontal span: 2 ])
-		as: #bodyElement
+		as: #bodyElement.
+	self actionsElement ifNotNil: [ :e | self addChild: (e constraintsDo: [ :c | c grid horizontal span: 2 ]) ]
 ]
 
 { #category : #accessing }
-TraGtCoderMethodPatternElement >> scoper [
+TraGtCoderMethodBodyElement >> scoper [
 	^ [ [ (TraResolver instance resolveMethod: methodCoder classOrMetaClass >> methodCoder selector)
 		traGtWholeForTest: Color purple lighter
 		forExample: Color orange lighter ]

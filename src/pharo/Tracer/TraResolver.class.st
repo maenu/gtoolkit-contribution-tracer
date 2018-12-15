@@ -35,10 +35,10 @@ TraResolver >> packages: anObject [
 TraResolver >> resolveMethod: aMethod [
 	^ ((self resolvePackage: aMethod package) value value associations
 		detect: [ :e | e key methodClass = aMethod methodClass and: [ e key selector = aMethod selector ] ]
-		ifNone: [ TraNoMethodFoundError new ]) value
+		ifNone: [ TraNoMethodFoundError signal ]) value
 ]
 
 { #category : #'as yet unclassified' }
 TraResolver >> resolvePackage: aPackage [
-	^ packages at: aPackage ifAbsent: [ TraNoPackageFoundError new ]
+	^ packages at: aPackage ifAbsent: [ TraNoPackageFoundError signal ]
 ]
