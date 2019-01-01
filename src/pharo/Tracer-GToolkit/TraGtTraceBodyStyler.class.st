@@ -1,7 +1,7 @@
 Class {
 	#name : #TraGtTraceBodyStyler,
 	#superclass : #GtCoderBodyStyler,
-	#category : #'Tracer-GToolkit'
+	#category : #'Tracer-GToolkit-Core'
 }
 
 { #category : #visiting }
